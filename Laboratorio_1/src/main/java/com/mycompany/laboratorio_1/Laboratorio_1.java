@@ -124,6 +124,8 @@ public class Laboratorio_1 {
                 System.out.println("========================");
                 System.out.println("    Terminar programa   ");
                 System.out.println("========================");
+                System.out.println();
+                System.out.println("Realizado por: Juan Calpa y María Casanova");
                 /**
                  * Finaliza el estado de la variable "activa" a falso
                 */  
