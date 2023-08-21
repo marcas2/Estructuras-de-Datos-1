@@ -8,7 +8,13 @@ package Mundo;
  *
  * @author maria
  */
+
 public class Alumno {
+    
+    /**
+     * Declaración de los datos que contiene el Alumno
+     */
+    
     private int Cedula;
     private String Nombre;
     private String Apellido;
@@ -19,7 +25,17 @@ public class Alumno {
     public Alumno() {
 
     }
-
+    
+    /**
+     * Constructor
+     * @param Cedula
+     * @param Nombre
+     * @param Apellido
+     * @param Semestre
+     * @param Correo
+     * @param Celular 
+     */
+    
     public Alumno(int Cedula, String Nombre, String Apellido, int Semestre, String Correo, int Celular) {
         this.Cedula = Cedula;
         this.Nombre = Nombre;
@@ -29,6 +45,9 @@ public class Alumno {
         this.Celular = Celular;
     }
     
+    /**
+     * Declaracion gettes y setter de cada elemento. 
+     */
     
     public int getCedula() {
         return Cedula;

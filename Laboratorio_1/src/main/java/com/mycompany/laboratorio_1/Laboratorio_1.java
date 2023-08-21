@@ -12,6 +12,7 @@ import Mundo.Alumno;
  *
  * @author maria
  */
+
 public class Laboratorio_1 {
 
     public static void main(String[] args) {
@@ -88,6 +89,7 @@ public class Laboratorio_1 {
                 eliminarAlumno(sc,misAlumnos);
 
                 break;
+                
             case 3:
                 System.out.println("========================");
                 System.out.println("    Modificar alumno    ");
@@ -102,6 +104,7 @@ public class Laboratorio_1 {
                 actualizarAlumno(sc,misAlumnos);
 
                 break;
+                
             case 4:
 
                 System.out.println("========================");
@@ -125,7 +128,7 @@ public class Laboratorio_1 {
                 System.out.println("    Terminar programa   ");
                 System.out.println("========================");
                 System.out.println();
-                System.out.println("Realizado por: Juan Calpa y María Casanova");
+                System.out.println("Realizado por: María Casanova");
                 /**
                  * Finaliza el estado de la variable "activa" a falso
                 */  
