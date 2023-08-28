@@ -15,12 +15,12 @@ public class Alumno {
      * Declaración de los datos que contiene el Alumno
      */
     
-    private int Cedula;
+    private String Cedula;
     private String Nombre;
     private String Apellido;
-    private int Semestre;
+    private String Semestre;
     private String Correo;
-    private int Celular;
+    private String Celular;
 
     public Alumno() {
 
@@ -36,7 +36,7 @@ public class Alumno {
      * @param Celular 
      */
     
-    public Alumno(int Cedula, String Nombre, String Apellido, int Semestre, String Correo, int Celular) {
+    public Alumno(String Cedula, String Nombre, String Apellido, String Semestre, String Correo, String Celular) {
         this.Cedula = Cedula;
         this.Nombre = Nombre;
         this.Apellido = Apellido;
@@ -49,11 +49,11 @@ public class Alumno {
      * Declaracion gettes y setter de cada elemento. 
      */
     
-    public int getCedula() {
+    public String getCedula() {
         return Cedula;
     }
 
-    public void setCedula(int Cedula) {
+    public void setCedula(String Cedula) {
         this.Cedula = Cedula;
     }
 
@@ -73,11 +73,11 @@ public class Alumno {
         this.Apellido = Apellido;
     }
 
-    public int getSemestre() {
+    public String getSemestre() {
         return Semestre;
     }
 
-    public void setSemestre(int Semestre) {
+    public void setSemestre(String Semestre) {
         this.Semestre = Semestre;
     }
 
@@ -89,11 +89,11 @@ public class Alumno {
         this.Correo = Correo;
     }
 
-    public int getCelular() {
+    public String getCelular() {
         return Celular;
     }
 
-    public void setCelular(int Celular) {
+    public void setCelular(String Celular) {
         this.Celular = Celular;
     }
 

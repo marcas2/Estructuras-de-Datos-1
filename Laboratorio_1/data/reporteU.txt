@@ -1,0 +1,17 @@
+======================
+ Reporte estudiantes 
+======================
+Cedula: 1085264658
+Nombre: Maria
+Apellido: Casanova
+Celular: 3223907472
+Correo: maria@gmail.com
+Semestre: 4
+======================
+Cedula: 36757442
+Nombre: Juanita
+Apellido: Perez
+Celular: 3104615175
+Correo: juanita@gmail.com
+Semestre: 3
+======================

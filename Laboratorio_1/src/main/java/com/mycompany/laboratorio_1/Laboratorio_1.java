@@ -3,10 +3,18 @@
  */
 
 package com.mycompany.laboratorio_1;
-
+/**
+ * Importar librerias
+ */
 import java.util.ArrayList;
 import java.util.Scanner;
 import Mundo.Alumno;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  *
@@ -15,7 +23,7 @@ import Mundo.Alumno;
 
 public class Laboratorio_1 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         /**
          * Abrir Scanner
          */
@@ -30,7 +38,13 @@ public class Laboratorio_1 {
          * Crear Array para guardar la información 
          */
         ArrayList<Alumno> misAlumnos = new ArrayList<Alumno>();
-
+        
+        /**
+         * Llamamos el metodo Leer Archivo para el manejo de pesistencia 
+         */
+        
+        leerArchivo(misAlumnos);
+        
         /**
          *  Ciclo para mostrar el menu
          */
@@ -47,7 +61,8 @@ public class Laboratorio_1 {
             System.out.println("2) Eliminar alumno");
             System.out.println("3) Modificar alumno");
             System.out.println("4) Consultar alumno");
-            System.out.println("5) Terminar programa");
+            System.out.println("5) Mostrar listado alumnos");
+            System.out.println("6) Terminar programa");
             System.out.println("========================");
             /**
              * Scanner para la opcion del menu
@@ -71,7 +86,7 @@ public class Laboratorio_1 {
                  *@param alumnos 
                  */
                 
-                agregarAlumno(sc, misAlumnos);
+                agregarAlumno(sc, misAlumnos) ;
                 
                 break;
 
@@ -121,8 +136,20 @@ public class Laboratorio_1 {
 
                 break;
                 
-           
-            case 5:
+            case 5: 
+                 System.out.println("========================");
+                System.out.println("    Consultar alumnos    ");
+                System.out.println("========================");
+                
+                /**
+                 * Llamamos el metodo consultar alumno 
+                 *@param sc
+                 *@param alumnos 
+                 */
+                
+                consultarAlumnos(sc,misAlumnos);
+                break;
+            case 6:
                  
                 System.out.println("========================");
                 System.out.println("    Terminar programa   ");
@@ -147,72 +174,106 @@ public class Laboratorio_1 {
     /**
      * Agregar Alumno
      * @param sc
-     * @param alumnos 
+     * @param alumnos
+     * @throws FileNotFoundException 
      */
     
-     private static void agregarAlumno(Scanner sc, ArrayList<Alumno> alumnos) {
-         
-        //Recibir la cedula del usuario
-        System.out.println("Introduce la cedula del alumno: ");
-        int cedula = sc.nextInt();
-               
-        //Recibir el nombre del usuario
-        System.out.println("Introduce el nombre del alumno: ");
-        String nombre = sc.next();
-                
-        //Recibir el apellido del usuario
-        System.out.println("Introduce el apellido del alumno: ");
-        String apellido = sc.next();
-                
-        //Recibir el semestre del usuario
-        System.out.println("Introduce el semestre del alumno: ");
-        int semestre = sc.nextInt();
-                
-        //Recibir el correo del usuario
-        System.out.println("Introduce el correo del alumno: ");
-        String correo = sc.next();
-                
-        //Recibir el celular del usuario
-        System.out.println("Introduce el celular del alumno: ");
-        int celular = sc.nextInt();
-                
-                
+    private static void agregarAlumno(Scanner sc, ArrayList<Alumno> alumnos) throws FileNotFoundException {
         /**
-        * Se crea el objeto para guardar la informacion de cada 1
+         * Comprobamos si la cedula que ingresa el usuario está repetida
+         * Utilizamos un ciclo While para que pida una cedula diferente en caso de estar repetida
          */
-                
-        Alumno a = new Alumno();
-        a.setCedula(cedula);
-        a.setNombre(nombre);
-        a.setApellido(apellido);
-        a.setSemestre(semestre);
-        a.setCorreo(correo);
-        a.setCelular(celular);
-                
+        while (true) {
+            
         /**
-        * Agregamos el valor del objeto al listArray
-        */
-                
-        alumnos.add(a);
+         * Se recibe la cedula
+         */
+        
+        System.out.println("Introduce la cedula del alumno: ");
+        String cedula = sc.next();
         /**
-         * Bandera para informar al usuario el estado del sistema
-         */        
-        System.out.println("Alumno añadido correctamente.");
-     }
+         * Bandera para verificar la cedula
+         */
+        boolean cedulaExistente = false;
+        /**
+         * Se verifica la cedula con los datos ya existentes
+         */
+        for (Alumno alumno : alumnos) {
+            if (alumno.getCedula().equals(cedula)) {
+                cedulaExistente = true;
+                System.out.println("Ya existe un alumno con esta cedula.");
+                break;
+            }
+        }
+        /**
+         * Se piden los demás datos
+         */
+        if (!cedulaExistente) {
+            // Recibir el nombre del usuario
+            System.out.println("Introduce el nombre del alumno: ");
+            String nombre = sc.next();
+
+            // Recibir el apellido del usuario
+            System.out.println("Introduce el apellido del alumno: ");
+            String apellido = sc.next();
+
+            // Recibir el semestre del usuario
+            System.out.println("Introduce el semestre del alumno: ");
+            String semestre = sc.next();
+
+            // Recibir el correo del usuario
+            System.out.println("Introduce el correo del alumno: ");
+            String correo = sc.next();
+
+            // Recibir el celular del usuario
+            System.out.println("Introduce el celular del alumno: ");
+            String celular = sc.next();
+
+            /**
+             * Se crea el objeto para guardar la informacion de cada alumno
+             */
+            Alumno a = new Alumno();
+            a.setCedula(cedula);
+            a.setNombre(nombre);
+            a.setApellido(apellido);
+            a.setSemestre(semestre);
+            a.setCorreo(correo);
+            a.setCelular(celular);
+
+            /**
+             * Agregamos el valor del objeto al ArrayList
+             */
+            alumnos.add(a);
+
+            /**
+             * Bandera para informar al usuario el estado del sistema
+             */
+            System.out.println("Alumno añadido correctamente.");
+            /**
+             * Llamamos el metodo para editar el archivo
+             */
+            escribirArchivoUsuario(alumnos);
+
+            break; 
+        }
+    }
+}
+
      
-     /**
-      * Eliminar Alumno
-      * @param sc
-      * @param alumnos 
-      */
+    /**
+     * Eliminar Alumno
+     * @param sc
+     * @param alumnos
+     * @throws FileNotFoundException 
+     */
     
-    private static void eliminarAlumno(Scanner sc, ArrayList<Alumno> alumnos){
+    private static void eliminarAlumno(Scanner sc, ArrayList<Alumno> alumnos) throws FileNotFoundException{
         
         /**
          * Se pide la cedula para consultar al estudiante
          */
         System.out.println("Digita la cedula del estudiante que desees eliminar.");
-        int cedulaEliminar = sc.nextInt();
+        String cedulaEliminar = sc.next();
         
         /**
          * Bandera para mostrar mensaje al usuario en caso de no encontrar coincidencias
@@ -232,8 +293,8 @@ public class Laboratorio_1 {
              * Analizar con IF cada elemento y ver si coinciden con la cedula digitada. 
              */
             
-            if (alumno.getCedula()==cedulaEliminar){
-                if (alumno.getCedula() != 0){
+            if (alumno.getCedula().equals(cedulaEliminar)){
+                if (alumno.getCedula() != null){
                 /**
                  * Se usa la funcion REMOVE 
                  * Basado: https://www.arquitecturajava.com/java-arraylist-remove-y-sus-opciones/
@@ -259,24 +320,31 @@ public class Laboratorio_1 {
         } 
         
         /**
-         * Mensaje en caso de no encontrar coincidencias
+         * Editar el archivo txt 
          */
         
+        escribirArchivoUsuario( alumnos);
+        /**
+         * Mensaje en caso de no encontrar coincidencias
+         */
         if (!encontrar) System.out.println("No hay ningun estudiante que coincida con la cedula digitada.");
+        
     }
     
     /**
-     * Actualizar Alumno
+     * Actualizar alumno
      * @param sc
-     * @param alumnos 
+     * @param alumnos
+     * @throws FileNotFoundException 
      */
     
-    private static void actualizarAlumno(Scanner sc, ArrayList<Alumno> alumnos ){
+    private static void actualizarAlumno(Scanner sc, ArrayList<Alumno> alumnos ) throws FileNotFoundException{
+        
         /**
          * Se pide la cedula para consultar al estudiante
          */
         System.out.println("Digita la cedula del estudiante que desees modificar.");
-        int cedulaModificar = sc.nextInt();
+        String cedulaModificar = sc.next();
                 
         /**
          * Bandera para mostrar mensaje al usuario en caso de no encontrar coincidencias
@@ -294,11 +362,11 @@ public class Laboratorio_1 {
              * Analizar con IF cada elemento y ver si coinciden con la cedula digitada. 
              */
              
-            if (alumno.getCedula()==cedulaModificar){
+            if (alumno.getCedula().equals(cedulaModificar)){
                 
                 //Recibir la nueva cedula del usuario
                 System.out.println("Introduce la nueva cedula del alumno: ");
-                int cedula = sc.nextInt();
+                String cedula = sc.next();
 
                 //Recibir el nuevo nombre del usuario
                 System.out.println("Introduce el nuevo nombre del alumno: ");
@@ -310,7 +378,7 @@ public class Laboratorio_1 {
 
                 //Recibir el nuevo semestre del usuario
                 System.out.println("Introduce el nuevo semestre del alumno: ");
-                int semestre = sc.nextInt();
+                String semestre = sc.next();
 
                 //Recibir el nuevo correo del usuario
                 System.out.println("Introduce el nuevo correo del alumno: ");
@@ -318,7 +386,7 @@ public class Laboratorio_1 {
 
                 //Recibir el nuevo celular del usuario
                 System.out.println("Introduce el nuevo celular del alumno: ");
-                int celular = sc.nextInt();
+                String celular = sc.next();
                 
                 /**
                  * Modificar los datos
@@ -340,6 +408,10 @@ public class Laboratorio_1 {
                  * Bandera en TRUE para no mostrar mensaje de error al usuario
                  */
                 encontrar=true;
+                /**
+                 * Se edita el archivo txt, llamando el metodo para excribir en el archivo txt
+                 */
+                escribirArchivoUsuario( alumnos);
                 break;
             }
         }
@@ -351,17 +423,19 @@ public class Laboratorio_1 {
     }
     
     /**
-     * Consultar alumno
+     * Consultar Alumno
      * @param sc
-     * @param alumnos 
+     * @param alumnos
+     * @throws FileNotFoundException 
      */
     
-    private static void consultarAlumno(Scanner sc, ArrayList<Alumno> alumnos){
+    private static void consultarAlumno(Scanner sc, ArrayList<Alumno> alumnos) throws FileNotFoundException{
+        
         /**
          * Se pide la cedula para consultar al estudiante
          */
         System.out.println("Digita la cedula del estudiante que desees consultar.");
-        int cedulaConsultar = sc.nextInt();      
+        String cedulaConsultar = sc.next();      
         /**
          * Bandera para mostrar mensaje al usuario en caso de no encontrar coincidencias
          */
@@ -373,7 +447,7 @@ public class Laboratorio_1 {
             /**
              * Analizar con IF cada elemento y ver si coinciden con la cedula digitada. 
              */
-            if (alumno.getCedula()==cedulaConsultar){
+            if (alumno.getCedula().equals(cedulaConsultar)){
                 /**
                  * Usar funciones GET para mostrar los datos
                  */
@@ -395,4 +469,188 @@ public class Laboratorio_1 {
         
         if (!encontrar) System.out.println("No hay ningun estudiante que coincida con la cedula digitada.");
     }
+    
+    /**
+     * Consultar Alumnos (Listado)
+     * @param sc
+     * @param alumnos
+     * @throws FileNotFoundException 
+     */
+    
+    private static void consultarAlumnos(Scanner sc, ArrayList<Alumno> alumnos) throws FileNotFoundException{
+        /**
+         * Ciclo for para recorres el array list 
+         */
+        for (Alumno alumno:alumnos){
+                /**
+                 * Se muestra listado 
+                 */
+                System.out.println("///////////////////////////////");
+                System.out.println("NOMBRE: "+ alumno.getNombre());
+                System.out.println("APELLIDO: "+ alumno.getApellido());
+                System.out.println("CELULAR: "+ alumno.getCelular());
+                System.out.println("CORREO: "+ alumno.getCorreo());
+                System.out.println("SEMESTRE: "+ alumno.getSemestre());
+                System.out.println("///////////////////////////////");
+   
+            }
+        }
+    /**
+     * Escribir archivo txt para mostrar el usuario 
+     * @param alumnos 
+     */
+    
+    public static void escribirArchivoUsuario(ArrayList<Alumno> alumnos) {
+        /**
+         * Se crea el archivo
+         */
+        File archivo = new File("./data/reporteU.txt");
+        /**
+         * Bloque try-catch 
+         */
+        try {
+            /**
+             * Creamos la pluma y escribimos
+             */
+            PrintWriter pluma = new PrintWriter(archivo);
+            pluma.println("======================");
+            pluma.println(" Reporte estudiantes ");
+            pluma.println("======================");
+            /**
+             * Con un bucle for y con la pluma se escriben los datos
+             */
+            for (Alumno a : alumnos) {
+                pluma.println("Cedula: " + a.getCedula()+ "\n"+
+                "Nombre: " + a.getNombre()+ "\n"+
+                "Apellido: " + a.getApellido()+ "\n"+
+                "Celular: " + a.getCelular()+ "\n"+
+                "Correo: " + a.getCorreo()+ "\n"+
+                "Semestre: " + a.getSemestre()+ "\n"+
+                "======================");
+            }
+            /**
+             * Llamamos el metodo para escribir los archivos de persistencia para que este 
+             * se actualice a la vez
+             */
+            escribirArchivoPersistencia (alumnos);
+            
+            /**
+             * Cerramos la pluma
+             */
+            pluma.close();
+       
+        } 
+        catch (FileNotFoundException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Escribir archivo txt para persistencia
+     * @param alumnos 
+     */
+    
+    public static void escribirArchivoPersistencia(ArrayList<Alumno> alumnos) {
+        /**
+         * Se crea el archivo
+         */
+        File archivo = new File("./data/reporteP.txt");
+        
+        /**
+         * Bloque try-catch 
+         */
+       try {
+            /**
+             * Creamos la pluma 
+             */
+            PrintWriter pluma = new PrintWriter(archivo);
+
+            /**
+             * Con el ciclo for se escribe la informacion separada por comas. 
+             */
+            for (Alumno a : alumnos) {
+                
+                pluma.println( a.getCedula()+ ","+
+                a.getNombre()+ ","+
+                a.getApellido()+ ","+
+                a.getCelular()+ ","+
+                a.getCorreo()+ ","+
+                a.getSemestre());
+                
+            }
+            /**
+             * Cerramos la pluma
+             */
+            pluma.close();
+       
+        } 
+        catch (FileNotFoundException e) {
+            System.err.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
+    
+    /**
+     * Leer archivo txt para manejo de persistencia
+     * @param alumnos
+     * @throws FileNotFoundException 
+     */
+    
+    public static void leerArchivo (ArrayList<Alumno> alumnos) throws FileNotFoundException{
+        /**
+         *  Se especifica la ruta del archivo a leer
+         */
+        File archivo = new File("./data/reporteP.txt");
+        /**
+         * Bloque try-catch
+         */
+        try{
+            /**
+             * Se crea un FileReader para leer el archivo
+             */
+            FileReader fr= new FileReader (archivo);
+            BufferedReader lector = new BufferedReader(fr);
+            /**
+             * Se lee la primera línea del archivo
+             */
+            String linea=lector.readLine();
+            /**
+             * Con el bucle while se recorre el archivo línea por línea
+             */
+            while(linea!=null){
+                /**
+                 * Se dividen los datos de la línea en un arreglo utilizando la coma como separador
+                 */
+                String [] datos = linea.split(",");
+                /**
+                 * Asignamos los valores
+                 */
+                String cedula= datos[0].trim();
+                String nombre=datos[1].trim();
+                String apellido=datos[2].trim();
+                String celular=datos[3].trim();
+                String correo =datos[4].trim();
+                String semestre=datos[5].trim();
+                /**
+                 * Creamos un alumno con la informacion obtenida y se agrega a la lista de alumnos
+                 */
+                Alumno a = new Alumno(cedula,nombre, apellido, semestre, correo, celular);
+                alumnos.add(a); 
+                
+                /**
+                 * Se lee la siguiente línea del archivo
+                 */
+                linea =lector.readLine();
+                
+            }
+            /**
+             * Se cierran los recursos utilizados para la lectura
+             */
+            fr.close();
+            lector.close();
+            
+        } catch(IOException e){
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+        }
+    }
+    
 }
